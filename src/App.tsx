@@ -1,12 +1,14 @@
 import "./App.css";
 
+import PatientsLoader from './Components/PatientsLoader';
+import PatientTable from './Components/PatientTable';
+
 function App() {
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gray-100">
-      <h1 className="text-4xl font-bold text-blue-600">
-        React
-      </h1>
-    </div>
+    <>
+      <PatientsLoader />
+      <PatientTable />
+    </>
   );
 }
 

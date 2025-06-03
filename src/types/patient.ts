@@ -1,4 +1,4 @@
-// src/types/patient.ts
+
 
 export interface Address {
   address: string;

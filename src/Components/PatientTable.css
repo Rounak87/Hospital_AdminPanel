@@ -1,0 +1,32 @@
+
+.table-row:hover {
+  background-color: #ddd;
+  cursor: pointer; 
+}
+
+
+.tab-button {
+  padding: 10px 20px;
+  border: none;
+  border-bottom: 2px solid transparent;
+  background: none;
+  cursor: pointer;
+  font-size: 16px;
+  transition: border-color 0.3s;
+}
+
+.tab-button:hover {
+  border-bottom-color: #007bff;
+}
+
+.tab-button.active {
+  border-bottom-color: #007bff;
+  /* font-weight: bold; */
+  color: #007bff;
+}
+
+.tab-header {
+  display: flex;
+  border-bottom: 2px solid #ccc;
+  margin-bottom: 10px;
+}
