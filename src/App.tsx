@@ -1,7 +1,7 @@
 import "./App.css";
 
 import PatientsLoader from './Components/PatientsLoader';
-import PatientTable from './Components/PatientTable';
+import PatientTable from './Components/PatientTabs';
 
 function App() {
   return (
