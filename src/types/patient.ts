@@ -1,3 +1,5 @@
+// src/types/patient.ts
+
 export interface Address {
   address: string;
   city: string;
@@ -5,7 +7,7 @@ export interface Address {
 }
 
 export interface PatientAdmission {
-  generatedId: number; 
+  generatedId: number;
   firstName: string;
   lastName: string;
   age: number;
@@ -14,5 +16,7 @@ export interface PatientAdmission {
   phone: string;
   address: Address;
   status: 'Admitted' | 'Discharged' | 'Under Observation';
-  roomNumber?: string; 
+  roomNumber?: string;
 }
+
+

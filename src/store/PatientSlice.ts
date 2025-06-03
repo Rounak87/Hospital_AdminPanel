@@ -1,5 +1,9 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { PatientAdmission } from '../types/patient';
+// src/store/patientSlice.ts
+
+import { createSlice } from '@reduxjs/toolkit';
+import type { PayloadAction } from '@reduxjs/toolkit';
+import type { PatientAdmission } from '../types/patient';
+
 
 interface PatientState {
   patients: PatientAdmission[];
