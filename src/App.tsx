@@ -1,13 +1,10 @@
 import "./App.css";
-
-import PatientsLoader from './Components/PatientsLoader';
-import PatientTable from './Components/PatientTabs';
+import Dashboard from "./Components/Dashboard";
 
 function App() {
   return (
     <>
-      <PatientsLoader />
-      <PatientTable />
+      <Dashboard />
     </>
   );
 }
