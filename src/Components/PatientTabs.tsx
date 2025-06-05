@@ -23,7 +23,6 @@ import {
 
 import PatientForm from './PatientForm';
 import ConfirmDialog from './ConfirmDialog';
-import PatientsLoader from './PatientsLoader';
 
 import { addPatient, updatePatient, deletePatient } from '../store/patientSlice';
 
@@ -115,9 +114,8 @@ const PatientTabs: React.FC = () => {
   };
 
   return (
-    <Box sx={{ p: 3 }}>
-      <PatientsLoader />
-      {/* Header */}
+    <Box>
+      {/* Header and Add button */}
       <Stack direction="row" justifyContent="space-between" alignItems="center" mb={2}>
         <Typography variant="h4">Patients</Typography>
         <Button variant="contained" color="primary" onClick={handleAddClick}>
@@ -143,7 +141,7 @@ const PatientTabs: React.FC = () => {
         />
       </Box>
 
-      {/* Table */}
+      {/* Patient Table */}
       <Paper>
         <TableContainer>
           <Table stickyHeader aria-label="patients table">

@@ -1,7 +1,8 @@
 import React from 'react';
-import { Box, Grid, Paper, Typography, Card, CardContent } from '@mui/material';
+import { Box, Grid, Paper, Typography, Card, CardContent, Stack } from '@mui/material';
 import { useSelector } from 'react-redux';
 import type { RootState } from '../store/store';
+
 import PatientTabs from './PatientTabs';
 
 import { PieChart, Pie, Cell, Tooltip, Legend, ResponsiveContainer } from 'recharts';
@@ -23,23 +24,21 @@ const Dashboard: React.FC = () => {
         Patient Dashboard
       </Typography>
 
-      <Grid container spacing={3}>
-        {/* Left side: PatientTabs Table */}
-        <Grid item xs={12} md={8}>
-          <Paper sx={{ padding: 2 }}>
-            <PatientTabs />
-          </Paper>
-        </Grid>
+      {/* Patient Table - full width */}
+      <Paper sx={{ padding: 2, mb: 4 }}>
+        <PatientTabs />
+      </Paper>
 
-        {/* Right side: Charts and Cards */}
-        <Grid item xs={12} md={4} container direction="column" spacing={3}>
-          {/* Pie Chart */}
-          <Grid item>
-            <Paper sx={{ padding: 2, height: 350 }}>
-              <Typography variant="h6" gutterBottom>
-                Patient Status Distribution
-              </Typography>
-              <ResponsiveContainer width="100%" height="90%">
+      {/* Charts and Cards Row */}
+      <Grid container spacing={4}>
+        {/* Charts */}
+        <Grid item xs={12} md={8}>
+          <Paper sx={{ padding: 3, height: 400, display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
+            <Typography variant="h6" gutterBottom>
+              Patient Status Distribution
+            </Typography>
+            <Box sx={{ flex: 1, minHeight: 300 }}>
+              <ResponsiveContainer width="100%" height="100%">
                 <PieChart>
                   <Pie
                     data={statusCounts}
@@ -47,7 +46,7 @@ const Dashboard: React.FC = () => {
                     nameKey="name"
                     cx="50%"
                     cy="50%"
-                    outerRadius={80}
+                    outerRadius={100}
                     label
                   >
                     {statusCounts.map((entry, index) => (
@@ -58,27 +57,38 @@ const Dashboard: React.FC = () => {
                   <Legend verticalAlign="bottom" height={36} />
                 </PieChart>
               </ResponsiveContainer>
-            </Paper>
-          </Grid>
+            </Box>
+          </Paper>
+        </Grid>
 
-          {/* Additional Cards */}
-          <Grid item>
+        {/* Cards */}
+        <Grid item xs={12} md={4}>
+          <Stack spacing={3}>
             <Card>
               <CardContent>
                 <Typography variant="h6">Total Patients</Typography>
                 <Typography variant="h4">{patients.length}</Typography>
               </CardContent>
             </Card>
-          </Grid>
-
-          <Grid item>
             <Card>
               <CardContent>
                 <Typography variant="h6">Currently Admitted</Typography>
                 <Typography variant="h4">{statusCounts.find(s => s.name === 'Admitted')?.value || 0}</Typography>
               </CardContent>
             </Card>
-          </Grid>
+            <Card>
+              <CardContent>
+                <Typography variant="h6">Under Observation</Typography>
+                <Typography variant="h4">{statusCounts.find(s => s.name === 'Under Observation')?.value || 0}</Typography>
+              </CardContent>
+            </Card>
+            <Card>
+              <CardContent>
+                <Typography variant="h6">Discharged</Typography>
+                <Typography variant="h4">{statusCounts.find(s => s.name === 'Discharged')?.value || 0}</Typography>
+              </CardContent>
+            </Card>
+          </Stack>
         </Grid>
       </Grid>
     </Box>
