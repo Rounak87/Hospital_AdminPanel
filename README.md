@@ -1,54 +1,67 @@
-# React + TypeScript + Vite
+# 🏥 Patient Admission Dashboard
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A responsive and interactive web dashboard for managing hospital in-patient admissions, built with **React**, **TypeScript**, **Redux Toolkit**, **TailwindCSS**, and **Recharts**. This project simulates a real-world healthcare admin interface, enabling data visualization, search/filter, and full CRUD operations on patient records.
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## 🚀 Features
 
-## Expanding the ESLint configuration
+- **Modern UI**: Clean, responsive healthcare-style design using TailwindCSS and MUI components.
+- **TypeScript**: Type-safe interfaces and models for reliability and maintainability.
+- **State Management**: Redux Toolkit for global, scalable state.
+- **API Integration**: Fetches patient data from [dummyjson.com/users](https://dummyjson.com/users).
+- **Data Table**: Searchable, filterable, and paginated patient table with edit/delete.
+- **CRUD Operations**: Add, update, and delete patient records with instant UI feedback (using toast notifications).
+- **Data Visualization**: Rich charts (Recharts) for status, gender, age, and blood group insights.
+- **Error Handling**: Graceful error messages for API and form errors.
+- **Accessible & Responsive**: Works great on all devices and follows accessible design principles.
+- **Modular Structure**: Clean codebase with modular, maintainable components.
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+---
 
-```js
-export default tseslint.config({
-  extends: [
-    // Remove ...tseslint.configs.recommended and replace with this
-    ...tseslint.configs.recommendedTypeChecked,
-    // Alternatively, use this for stricter rules
-    ...tseslint.configs.strictTypeChecked,
-    // Optionally, add this for stylistic rules
-    ...tseslint.configs.stylisticTypeChecked,
-  ],
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
+
+## 🛠️ Setup & Installation
+
+1. **Clone the repository:**
+
+```bash
+git clone https://github.com/Rounak87/Hospital_AdminPanel
+cd Hospital_AdminPanel
 ```
+Install dependencies:
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
-
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default tseslint.config({
-  plugins: {
-    // Add the react-x and react-dom plugins
-    'react-x': reactX,
-    'react-dom': reactDom,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended typescript rules
-    ...reactX.configs['recommended-typescript'].rules,
-    ...reactDom.configs.recommended.rules,
-  },
-})
+```bash
+npm install
+or
+yarn install
 ```
+Start the server:
+```bash
+npm run devs
+
+```
+Open in browser:
+Navigate to http://localhost:3000
+```
+```
+## ✨ Usage
+
+- **Overview:** View patient stats, charts, and recent admissions at a glance.
+- **Patients:** Search, filter, add, edit, and delete patients in a modern table view.
+- **Statistics:** Explore detailed charts for gender, age, status, and blood group distributions.
+- **All changes are instantly reflected in the UI with toast notifications.**
+
+---
+
+## ⚙️ Technologies Used
+
+- **React** (with functional components & hooks)
+- **TypeScript**
+- **Redux Toolkit** (for state management)
+- **TailwindCSS** (for styling)
+- **MUI** (for dialogs, forms, and some UI elements)
+- **Recharts** (for data visualization)
+- **dummyjson.com** (public API for patient data)
+- **React Router** (for multi-page navigation)
+- **React Toastify** (for notifications)
+
