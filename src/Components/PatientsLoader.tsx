@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { setPatients } from '../store/patientSlice';
 import type { PatientAdmission } from '../types/patient';
@@ -6,6 +6,20 @@ import { generateAllAdmissionData } from '../Utils/AdmissionData';
 
 const BLOOD_GROUPS = ['A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-'];
 const getRandomBloodGroup = () => BLOOD_GROUPS[Math.floor(Math.random() * BLOOD_GROUPS.length)];
+
+type ApiUser = {
+  firstName: string;
+  lastName: string;
+  age: number;
+  gender: 'male' | 'female' | 'other';
+  email: string;
+  phone: string;
+  address: {
+    address: string;
+    city: string;
+    postalCode: string;
+  };
+};
 
 const PatientsLoader: React.FC = () => {
   const dispatch = useDispatch();
@@ -15,10 +29,10 @@ const PatientsLoader: React.FC = () => {
       try {
         const res = await fetch('https://dummyjson.com/users');
         const data = await res.json();
-        const patientsFromApi = data.users;
+        const patientsFromApi: ApiUser[] = data.users;
         const admissionDataArray = generateAllAdmissionData(patientsFromApi.length);
 
-        const patients: PatientAdmission[] = patientsFromApi.map((user: any, index: number) => ({
+        const patients: PatientAdmission[] = patientsFromApi.map((user, index) => ({
           generatedId: admissionDataArray[index].generatedId,
           firstName: user.firstName,
           lastName: user.lastName,

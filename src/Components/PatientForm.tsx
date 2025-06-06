@@ -22,6 +22,7 @@ interface PatientFormProps {
 
 const statuses: PatientAdmission['status'][] = ['Admitted', 'Discharged', 'Under Observation'];
 const bloodGroups = ['A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-'];
+const genders: PatientAdmission['gender'][] = ['male', 'female', 'other'];
 
 const PatientForm: React.FC<PatientFormProps> = ({ open, onClose, onSubmit, initialData }) => {
   const emptyForm: PatientAdmission = {
@@ -29,7 +30,7 @@ const PatientForm: React.FC<PatientFormProps> = ({ open, onClose, onSubmit, init
     firstName: '',
     lastName: '',
     age: 0,
-    gender: '' as PatientAdmission['gender'],
+    gender: 'male',
     email: '',
     phone: '',
     address: { address: '', city: '', postalCode: '' },
@@ -54,14 +55,17 @@ const PatientForm: React.FC<PatientFormProps> = ({ open, onClose, onSubmit, init
     // eslint-disable-next-line
   }, [initialData, open]);
 
-  const handleChange = (field: keyof PatientAdmission, value: any) => {
+  const handleChange = <K extends keyof PatientAdmission>(field: K, value: PatientAdmission[K]) => {
     setFormData(prev => ({
       ...prev,
       [field]: value,
     }));
   };
 
-  const handleAddressChange = (field: keyof PatientAdmission['address'], value: string) => {
+  const handleAddressChange = (
+    field: keyof PatientAdmission['address'],
+    value: string
+  ) => {
     setFormData(prev => ({
       ...prev,
       address: {
@@ -162,12 +166,14 @@ const PatientForm: React.FC<PatientFormProps> = ({ open, onClose, onSubmit, init
             fullWidth
             margin="normal"
             value={formData.gender}
-            onChange={e => handleChange('gender', e.target.value)}
+            onChange={e => handleChange('gender', e.target.value as PatientAdmission['gender'])}
             required
           >
-            <MenuItem value="male">Male</MenuItem>
-            <MenuItem value="female">Female</MenuItem>
-            <MenuItem value="other">Other</MenuItem>
+            {genders.map(gender => (
+              <MenuItem key={gender} value={gender}>
+                {gender.charAt(0).toUpperCase() + gender.slice(1)}
+              </MenuItem>
+            ))}
           </TextField>
           <TextField
             label="Email"
@@ -216,7 +222,7 @@ const PatientForm: React.FC<PatientFormProps> = ({ open, onClose, onSubmit, init
             fullWidth
             margin="normal"
             value={formData.status}
-            onChange={e => handleChange('status', e.target.value)}
+            onChange={e => handleChange('status', e.target.value as PatientAdmission['status'])}
             required
           >
             {statuses.map(status => (
