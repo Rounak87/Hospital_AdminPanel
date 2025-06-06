@@ -21,20 +21,17 @@ const COLORS = ['#14b8a6', '#2563eb', '#f59e42'];
 const OverviewPage: React.FC = () => {
   const patients: PatientAdmission[] = useSelector((state: RootState) => state.patients.patients);
 
-  // Stats
   const totalPatients = patients.length;
   const admittedCount = patients.filter(p => p.status === 'Admitted').length;
   const dischargedCount = patients.filter(p => p.status === 'Discharged').length;
   const underObservationCount = patients.filter(p => p.status === 'Under Observation').length;
 
-  // Pie chart data
   const statusData = [
     { name: 'Admitted', value: admittedCount },
     { name: 'Discharged', value: dischargedCount },
     { name: 'Under Observation', value: underObservationCount },
   ];
 
-  // Bar chart data for age groups
   const ageGroups = [
     '0-10', '11-20', '21-30', '31-40', '41-50', '51-60', '61-70', '71+'
   ];
@@ -51,7 +48,6 @@ const OverviewPage: React.FC = () => {
     return { ageGroup: group, count };
   });
 
-  // Recent admitted patients (latest 5)
   const recentPatients = patients
     .filter(p => p.status === 'Admitted')
     .slice()
@@ -108,7 +104,7 @@ const OverviewPage: React.FC = () => {
                   outerRadius={80}
                   label
                 >
-                  {statusData.map((entry, index) => (
+                  {statusData.map((_, index) => (
                     <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
                   ))}
                 </Pie>

@@ -20,7 +20,7 @@ interface PatientFormProps {
   initialData?: PatientAdmission;
 }
 
-const statuses = ['Admitted', 'Discharged', 'Under Observation'];
+const statuses: PatientAdmission['status'][] = ['Admitted', 'Discharged', 'Under Observation'];
 const bloodGroups = ['A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-'];
 
 const PatientForm: React.FC<PatientFormProps> = ({ open, onClose, onSubmit, initialData }) => {
@@ -29,7 +29,7 @@ const PatientForm: React.FC<PatientFormProps> = ({ open, onClose, onSubmit, init
     firstName: '',
     lastName: '',
     age: 0,
-    gender: '',
+    gender: '' as PatientAdmission['gender'],
     email: '',
     phone: '',
     address: { address: '', city: '', postalCode: '' },
@@ -51,7 +51,8 @@ const PatientForm: React.FC<PatientFormProps> = ({ open, onClose, onSubmit, init
       setFormData(emptyForm);
     }
     setError(null);
-  }, [initialData, open]); // Reset form on open
+    // eslint-disable-next-line
+  }, [initialData, open]);
 
   const handleChange = (field: keyof PatientAdmission, value: any) => {
     setFormData(prev => ({
