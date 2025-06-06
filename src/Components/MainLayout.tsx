@@ -1,15 +1,14 @@
 import React from 'react';
 import Sidebar from './Sidebar';
-import { Box } from '@mui/material';
 import { Outlet } from 'react-router-dom';
 
 const MainLayout = () => (
-  <Box sx={{ display: 'flex' }}>
+  <div className="flex">
     <Sidebar />
-    <Box sx={{ flex: 1, bgcolor: '#f4f6f8', minHeight: '100vh', p: 3 }}>
+    <main className="flex-1 min-h-screen bg-slate-50 p-6 ml-60">
       <Outlet />
-    </Box>
-  </Box>
+    </main>
+  </div>
 );
 
 export default MainLayout;

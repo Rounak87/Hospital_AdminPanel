@@ -1,5 +1,3 @@
-
-
 export interface Address {
   address: string;
   city: string;
@@ -17,6 +15,5 @@ export interface PatientAdmission {
   address: Address;
   status: 'Admitted' | 'Discharged' | 'Under Observation';
   roomNumber?: string;
+  bloodGroup: string;  // Added bloodGroup field
 }
-
-

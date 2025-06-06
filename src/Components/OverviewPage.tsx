@@ -35,25 +35,43 @@ const OverviewPage: React.FC = () => {
     { name: 'Under Observation', value: underObservationCount },
   ];
 
-  // Age distribution groups for bar chart
-  const ageGroups = ['0-20', '21-40', '41-60', '61+'];
+  // Finer age groups for bar chart
+  const ageGroups = [
+    '0-10', '11-20', '21-30', '31-40', '41-50', '51-60', '61-70', '71+'
+  ];
   const ageData = ageGroups.map(group => {
     let count = 0;
-    if (group === '0-20') count = patients.filter(p => p.age <= 20).length;
-    else if (group === '21-40') count = patients.filter(p => p.age > 20 && p.age <= 40).length;
-    else if (group === '41-60') count = patients.filter(p => p.age > 40 && p.age <= 60).length;
-    else count = patients.filter(p => p.age > 60).length;
+    if (group === '0-10') count = patients.filter(p => p.age >= 0 && p.age <= 10).length;
+    else if (group === '11-20') count = patients.filter(p => p.age >= 11 && p.age <= 20).length;
+    else if (group === '21-30') count = patients.filter(p => p.age >= 21 && p.age <= 30).length;
+    else if (group === '31-40') count = patients.filter(p => p.age >= 31 && p.age <= 40).length;
+    else if (group === '41-50') count = patients.filter(p => p.age >= 41 && p.age <= 50).length;
+    else if (group === '51-60') count = patients.filter(p => p.age >= 51 && p.age <= 60).length;
+    else if (group === '61-70') count = patients.filter(p => p.age >= 61 && p.age <= 70).length;
+    else count = patients.filter(p => p.age >= 71).length;
     return { ageGroup: group, count };
   });
 
-  // Recent 5 admitted patients sorted by admissionDate descending
-  const recentAdmitted = patients
+  // Recently added admitted patients sorted by generatedId descending
+  const recentPatients = patients
     .filter(p => p.status === 'Admitted')
-    .sort((a, b) => new Date(b.admissionDate).getTime() - new Date(a.admissionDate).getTime())
+    .slice() // clone array to avoid mutating redux state
+    .sort((a, b) => b.generatedId - a.generatedId)
     .slice(0, 5);
 
   return (
     <div className="p-6">
+      {/* Dashboard Header */}
+      <div className="mb-8">
+        <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-2">
+          <div>
+            <h1 className="text-3xl md:text-4xl font-extrabold text-blue-900 tracking-tight mb-1">Dashboard</h1>
+            <div className="text-base text-blue-600 font-medium">Welcome to Unriddle Healthcare Admin Panel</div>
+          </div>
+        </div>
+        <div className="border-b border-blue-200 mt-4" />
+      </div>
+
       {/* Stats Cards Row */}
       <div className="flex flex-col md:flex-row gap-6 mb-8">
         <div className="flex-1 bg-slate-50 rounded-xl shadow p-6 flex flex-col items-center justify-center">
@@ -72,6 +90,7 @@ const OverviewPage: React.FC = () => {
 
       {/* Charts Row */}
       <div className="flex flex-col md:flex-row gap-6 mb-8">
+        {/* Pie Chart with legend */}
         <div className="flex-1 bg-white rounded-xl shadow p-6 flex flex-col">
           <div className="text-lg font-semibold mb-2">Status Distribution</div>
           <div className="w-full h-[250px]">
@@ -91,15 +110,21 @@ const OverviewPage: React.FC = () => {
                   ))}
                 </Pie>
                 <Tooltip />
+                <Legend verticalAlign="bottom" iconType="circle" />
               </PieChart>
             </ResponsiveContainer>
           </div>
         </div>
+        {/* Bar Chart with finer age groups and less gap */}
         <div className="flex-1 bg-white rounded-xl shadow p-6 flex flex-col">
           <div className="text-lg font-semibold mb-2">Age Distribution</div>
           <div className="w-full h-[250px]">
             <ResponsiveContainer width="100%" height="100%">
-              <BarChart data={ageData} margin={{ top: 20, right: 30, left: 20, bottom: 5 }}>
+              <BarChart
+                data={ageData}
+                margin={{ top: 20, right: 30, left: 20, bottom: 5 }}
+                barCategoryGap={8}
+              >
                 <CartesianGrid strokeDasharray="3 3" />
                 <XAxis dataKey="ageGroup" />
                 <YAxis />
@@ -112,21 +137,56 @@ const OverviewPage: React.FC = () => {
         </div>
       </div>
 
-      {/* Recent Patients Table */}
+      {/* Recently Added Patients */}
       <div className="mt-8">
-        <div className="text-lg font-semibold mb-2">Recently Admitted Patients</div>
+        <div className="text-lg font-semibold mb-2">Recently Added Patients</div>
         <div className="bg-white rounded-xl shadow p-4">
-          {recentAdmitted.length === 0 ? (
-            <div className="text-gray-500">No recent admissions.</div>
+          {recentPatients.length === 0 ? (
+            <div className="text-gray-500">No patients available.</div>
           ) : (
             <ul>
-              {recentAdmitted.map(patient => (
-                <li key={patient.generatedId} className="py-2 border-b last:border-b-0">
-                  <div className="font-medium">
-                    {patient.firstName} {patient.lastName}
+              {recentPatients.map(patient => (
+                <li
+                  key={patient.generatedId}
+                  className="py-4 border-b last:border-b-0 flex flex-col md:flex-row md:items-center md:justify-between gap-2"
+                >
+                  <div>
+                    <div className="font-bold text-blue-900 text-lg">
+                      {patient.firstName} {patient.lastName}
+                    </div>
+                    <div className="flex flex-wrap gap-4 text-sm text-gray-700 mt-1">
+                      <span>Age: <span className="font-semibold">{patient.age}</span></span>
+                      <span>Gender: <span className="font-semibold capitalize">{patient.gender}</span></span>
+                      <span>
+                        Status:{' '}
+                        <span
+                          className={
+                            patient.status === 'Admitted'
+                              ? 'text-green-700 font-semibold'
+                              : patient.status === 'Discharged'
+                              ? 'text-orange-600 font-semibold'
+                              : 'text-blue-600 font-semibold'
+                          }
+                        >
+                          {patient.status}
+                        </span>
+                      </span>
+                      <span>Blood Group: <span className="font-semibold">{patient.bloodGroup}</span></span>
+                      {patient.status === 'Admitted' && patient.roomNumber && (
+                        <span>Room: <span className="font-semibold">{patient.roomNumber}</span></span>
+                      )}
+                    </div>
                   </div>
-                  <div className="text-sm text-gray-500">
-                    Admitted on: {new Date(patient.admissionDate).toLocaleDateString()}
+                  <div className="flex flex-col md:items-end gap-1 text-sm text-gray-600">
+                    <span>
+                      <span className="font-semibold">Email:</span> {patient.email}
+                    </span>
+                    <span>
+                      <span className="font-semibold">Phone:</span> {patient.phone}
+                    </span>
+                    <span>
+                      <span className="font-semibold">City:</span> {patient.address.city}
+                    </span>
                   </div>
                 </li>
               ))}

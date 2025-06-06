@@ -4,6 +4,13 @@ import { setPatients } from '../store/patientSlice';
 import type { PatientAdmission } from '../types/patient';
 import { generateAllAdmissionData } from '../Utils/AdmissionData';
 
+const BLOOD_GROUPS = ['A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-'];
+
+const getRandomBloodGroup = (): string => {
+  const index = Math.floor(Math.random() * BLOOD_GROUPS.length);
+  return BLOOD_GROUPS[index];
+};
+
 const PatientsLoader: React.FC = () => {
   const dispatch = useDispatch();
 
@@ -19,7 +26,7 @@ const PatientsLoader: React.FC = () => {
         // Generate admission data for all patients at once
         const admissionDataArray = generateAllAdmissionData(totalPatients);
 
-        // Merge API user data with generated admission data
+        // Merge API user data with generated admission data and assign random blood group
         const patients: PatientAdmission[] = patientsFromApi.map((user: any, index: number) => {
           const admissionData = admissionDataArray[index];
 
@@ -38,6 +45,7 @@ const PatientsLoader: React.FC = () => {
             },
             status: admissionData.status,
             roomNumber: admissionData.roomNumber,
+            bloodGroup: getRandomBloodGroup(),  // Assign random blood group here
           };
         });
 
