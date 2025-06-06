@@ -7,6 +7,7 @@ import {
   TextField,
   Button,
   MenuItem,
+  Divider,
 } from '@mui/material';
 import { useSelector } from 'react-redux';
 import type { RootState } from '../store/store';
@@ -110,133 +111,174 @@ const PatientForm: React.FC<PatientFormProps> = ({ open, onClose, onSubmit, init
   };
 
   return (
-    <Dialog open={open} onClose={onClose} maxWidth="sm" fullWidth>
-      <DialogTitle>{initialData ? 'Edit Patient' : 'Add Patient'}</DialogTitle>
-      <DialogContent dividers>
+    <Dialog
+      open={open}
+      onClose={onClose}
+      maxWidth="sm"
+      fullWidth
+      PaperProps={{
+        className: 'rounded-2xl bg-blue-50',
+        style: { borderRadius: 20 },
+      }}
+    >
+      <DialogTitle>
+        <span className="text-2xl font-bold text-teal-700">
+          {initialData ? 'Edit Patient' : 'Add Patient'}
+        </span>
+      </DialogTitle>
+      <Divider />
+      <DialogContent dividers className="!bg-blue-50">
         {error && <div className="text-red-600 mb-2">{error}</div>}
-        <TextField
-          label="First Name"
-          fullWidth
-          margin="normal"
-          value={formData.firstName}
-          onChange={e => handleChange('firstName', e.target.value)}
-          required
-        />
-        <TextField
-          label="Last Name"
-          fullWidth
-          margin="normal"
-          value={formData.lastName}
-          onChange={e => handleChange('lastName', e.target.value)}
-          required
-        />
-        <TextField
-          label="Age"
-          type="number"
-          fullWidth
-          margin="normal"
-          value={formData.age}
-          onChange={e => handleChange('age', Number(e.target.value))}
-          required
-        />
-        <TextField
-          label="Gender"
-          select
-          fullWidth
-          margin="normal"
-          value={formData.gender}
-          onChange={e => handleChange('gender', e.target.value)}
-          required
-        >
-          <MenuItem value="male">Male</MenuItem>
-          <MenuItem value="female">Female</MenuItem>
-          <MenuItem value="other">Other</MenuItem>
-        </TextField>
-        <TextField
-          label="Email"
-          type="email"
-          fullWidth
-          margin="normal"
-          value={formData.email}
-          onChange={e => handleChange('email', e.target.value)}
-          required
-        />
-        <TextField
-          label="Phone"
-          fullWidth
-          margin="normal"
-          value={formData.phone}
-          onChange={e => handleChange('phone', e.target.value)}
-          required
-        />
-        <TextField
-          label="Address"
-          fullWidth
-          margin="normal"
-          value={formData.address.address}
-          onChange={e => handleAddressChange('address', e.target.value)}
-          required
-        />
-        <TextField
-          label="City"
-          fullWidth
-          margin="normal"
-          value={formData.address.city}
-          onChange={e => handleAddressChange('city', e.target.value)}
-          required
-        />
-        <TextField
-          label="Postal Code"
-          fullWidth
-          margin="normal"
-          value={formData.address.postalCode}
-          onChange={e => handleAddressChange('postalCode', e.target.value)}
-          required
-        />
-        <TextField
-          label="Status"
-          select
-          fullWidth
-          margin="normal"
-          value={formData.status}
-          onChange={e => handleChange('status', e.target.value)}
-          required
-        >
-          {statuses.map(status => (
-            <MenuItem key={status} value={status}>
-              {status}
-            </MenuItem>
-          ))}
-        </TextField>
-        <TextField
-          label="Blood Group"
-          select
-          fullWidth
-          margin="normal"
-          value={formData.bloodGroup}
-          onChange={e => handleChange('bloodGroup', e.target.value)}
-          required
-        >
-          {bloodGroups.map(bg => (
-            <MenuItem key={bg} value={bg}>
-              {bg}
-            </MenuItem>
-          ))}
-        </TextField>
-        {formData.status === 'Admitted' && (
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <TextField
-            label="Room Number"
+            label="First Name"
             fullWidth
             margin="normal"
-            value={formData.roomNumber || ''}
-            onChange={e => handleChange('roomNumber', e.target.value)}
+            value={formData.firstName}
+            onChange={e => handleChange('firstName', e.target.value)}
             required
           />
-        )}
+          <TextField
+            label="Last Name"
+            fullWidth
+            margin="normal"
+            value={formData.lastName}
+            onChange={e => handleChange('lastName', e.target.value)}
+            required
+          />
+          <TextField
+            label="Age"
+            type="number"
+            fullWidth
+            margin="normal"
+            value={formData.age}
+            onChange={e => handleChange('age', Number(e.target.value))}
+            required
+          />
+          <TextField
+            label="Gender"
+            select
+            fullWidth
+            margin="normal"
+            value={formData.gender}
+            onChange={e => handleChange('gender', e.target.value)}
+            required
+          >
+            <MenuItem value="male">Male</MenuItem>
+            <MenuItem value="female">Female</MenuItem>
+            <MenuItem value="other">Other</MenuItem>
+          </TextField>
+          <TextField
+            label="Email"
+            type="email"
+            fullWidth
+            margin="normal"
+            value={formData.email}
+            onChange={e => handleChange('email', e.target.value)}
+            required
+          />
+          <TextField
+            label="Phone"
+            fullWidth
+            margin="normal"
+            value={formData.phone}
+            onChange={e => handleChange('phone', e.target.value)}
+            required
+          />
+          <TextField
+            label="Address"
+            fullWidth
+            margin="normal"
+            value={formData.address.address}
+            onChange={e => handleAddressChange('address', e.target.value)}
+            required
+          />
+          <TextField
+            label="City"
+            fullWidth
+            margin="normal"
+            value={formData.address.city}
+            onChange={e => handleAddressChange('city', e.target.value)}
+            required
+          />
+          <TextField
+            label="Postal Code"
+            fullWidth
+            margin="normal"
+            value={formData.address.postalCode}
+            onChange={e => handleAddressChange('postalCode', e.target.value)}
+            required
+          />
+          <TextField
+            label="Status"
+            select
+            fullWidth
+            margin="normal"
+            value={formData.status}
+            onChange={e => handleChange('status', e.target.value)}
+            required
+          >
+            {statuses.map(status => (
+              <MenuItem key={status} value={status}>
+                {status}
+              </MenuItem>
+            ))}
+          </TextField>
+          <TextField
+            label="Blood Group"
+            select
+            fullWidth
+            margin="normal"
+            value={formData.bloodGroup}
+            onChange={e => handleChange('bloodGroup', e.target.value)}
+            required
+          >
+            {bloodGroups.map(bg => (
+              <MenuItem key={bg} value={bg}>
+                {bg}
+              </MenuItem>
+            ))}
+          </TextField>
+          {formData.status === 'Admitted' && (
+            <TextField
+              label="Room Number"
+              fullWidth
+              margin="normal"
+              value={formData.roomNumber || ''}
+              onChange={e => handleChange('roomNumber', e.target.value)}
+              required
+            />
+          )}
+        </div>
       </DialogContent>
-      <DialogActions>
-        <Button onClick={onClose}>Cancel</Button>
-        <Button variant="contained" onClick={handleSubmit}>
+      <DialogActions className="!bg-blue-50 pb-4 pr-6">
+        <Button
+          onClick={onClose}
+          variant="outlined"
+          sx={{
+            borderRadius: '0.75rem',
+            color: '#0ea5e9',
+            borderColor: '#0ea5e9',
+            textTransform: 'none',
+            fontWeight: 600,
+            mr: 1,
+          }}
+        >
+          Cancel
+        </Button>
+        <Button
+          variant="contained"
+          onClick={handleSubmit}
+          sx={{
+            bgcolor: '#14b8a6',
+            '&:hover': { bgcolor: '#0d9488' },
+            borderRadius: '0.75rem',
+            textTransform: 'none',
+            fontWeight: 600,
+            px: 3,
+            boxShadow: 2,
+          }}
+        >
           {initialData ? 'Update' : 'Add'}
         </Button>
       </DialogActions>

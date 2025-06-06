@@ -2,7 +2,6 @@ import React from 'react';
 import { useSelector } from 'react-redux';
 import type { RootState } from '../store/store';
 import type { PatientAdmission } from '../types/patient';
-
 import {
   PieChart,
   Pie,
@@ -17,25 +16,25 @@ import {
   Legend,
 } from 'recharts';
 
-const COLORS = ['#0088FE', '#00C49F', '#FF8042'];
+const COLORS = ['#14b8a6', '#2563eb', '#f59e42'];
 
 const OverviewPage: React.FC = () => {
   const patients: PatientAdmission[] = useSelector((state: RootState) => state.patients.patients);
 
-  // Calculate stats
+  // Stats
   const totalPatients = patients.length;
   const admittedCount = patients.filter(p => p.status === 'Admitted').length;
   const dischargedCount = patients.filter(p => p.status === 'Discharged').length;
   const underObservationCount = patients.filter(p => p.status === 'Under Observation').length;
 
-  // Pie chart data for patient status
+  // Pie chart data
   const statusData = [
     { name: 'Admitted', value: admittedCount },
     { name: 'Discharged', value: dischargedCount },
     { name: 'Under Observation', value: underObservationCount },
   ];
 
-  // Finer age groups for bar chart
+  // Bar chart data for age groups
   const ageGroups = [
     '0-10', '11-20', '21-30', '31-40', '41-50', '51-60', '61-70', '71+'
   ];
@@ -52,47 +51,51 @@ const OverviewPage: React.FC = () => {
     return { ageGroup: group, count };
   });
 
-  // Recently added admitted patients sorted by generatedId descending
+  // Recent admitted patients (latest 5)
   const recentPatients = patients
     .filter(p => p.status === 'Admitted')
-    .slice() // clone array to avoid mutating redux state
+    .slice()
     .sort((a, b) => b.generatedId - a.generatedId)
     .slice(0, 5);
 
   return (
-    <div className="p-6">
-      {/* Dashboard Header */}
+    <div className="p-6 bg-gradient-to-br from-blue-50 via-teal-50 to-white min-h-screen">
       <div className="mb-8">
         <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-2">
           <div>
-            <h1 className="text-3xl md:text-4xl font-extrabold text-blue-900 tracking-tight mb-1">Dashboard</h1>
-            <div className="text-base text-blue-600 font-medium">Welcome to Unriddle Healthcare Admin Panel</div>
+            <h1 className="text-4xl font-extrabold text-teal-700 tracking-wide mb-1">Dashboard</h1>
+            <div className="text-base text-blue-600 font-medium">
+              Welcome to <span className="font-bold text-teal-600">Unriddle Healthcare</span> Admin Panel
+            </div>
           </div>
         </div>
-        <div className="border-b border-blue-200 mt-4" />
+        <div className="border-b border-teal-200 mt-4" />
       </div>
 
-      {/* Stats Cards Row */}
-      <div className="flex flex-col md:flex-row gap-6 mb-8">
-        <div className="flex-1 bg-slate-50 rounded-xl shadow p-6 flex flex-col items-center justify-center">
-          <div className="text-lg font-semibold mb-2">Total Patients</div>
-          <div className="text-3xl font-bold text-blue-700">{totalPatients}</div>
+      {/* Stats Cards */}
+      <div className="flex flex-col md:flex-row gap-8 mb-10">
+        <div className="flex-1 bg-white rounded-2xl shadow-lg border border-blue-100 p-8 flex flex-col items-center justify-center transition hover:shadow-xl">
+          <div className="text-lg font-semibold mb-2 text-teal-700">Total Patients</div>
+          <div className="text-4xl font-extrabold text-blue-900">{totalPatients}</div>
         </div>
-        <div className="flex-1 bg-slate-50 rounded-xl shadow p-6 flex flex-col items-center justify-center">
-          <div className="text-lg font-semibold mb-2">Admitted Patients</div>
-          <div className="text-3xl font-bold text-green-700">{admittedCount}</div>
+        <div className="flex-1 bg-white rounded-2xl shadow-lg border border-blue-100 p-8 flex flex-col items-center justify-center transition hover:shadow-xl">
+          <div className="text-lg font-semibold mb-2 text-teal-700">Admitted Patients</div>
+          <div className="text-4xl font-extrabold text-orange-600">{admittedCount}</div>
         </div>
-        <div className="flex-1 bg-slate-50 rounded-xl shadow p-6 flex flex-col items-center justify-center">
-          <div className="text-lg font-semibold mb-2">Discharged Patients</div>
-          <div className="text-3xl font-bold text-orange-600">{dischargedCount}</div>
+        <div className="flex-1 bg-white rounded-2xl shadow-lg border border-blue-100 p-8 flex flex-col items-center justify-center transition hover:shadow-xl">
+          <div className="text-lg font-semibold mb-2 text-teal-700">Discharged Patients</div>
+          <div className="text-4xl font-extrabold text-green-700">{dischargedCount}</div>
+        </div>
+        <div className="flex-1 bg-white rounded-2xl shadow-lg border border-blue-100 p-8 flex flex-col items-center justify-center transition hover:shadow-xl">
+          <div className="text-lg font-semibold mb-2 text-teal-700">Under Observation</div>
+          <div className="text-4xl font-extrabold text-teal-700">{underObservationCount}</div>
         </div>
       </div>
 
-      {/* Charts Row */}
-      <div className="flex flex-col md:flex-row gap-6 mb-8">
-        {/* Pie Chart with legend */}
-        <div className="flex-1 bg-white rounded-xl shadow p-6 flex flex-col">
-          <div className="text-lg font-semibold mb-2">Status Distribution</div>
+      {/* Charts */}
+      <div className="flex flex-col md:flex-row gap-8 mb-10">
+        <div className="flex-1 bg-blue-50 rounded-2xl shadow-lg border border-blue-100 p-6 flex flex-col">
+          <div className="text-lg font-semibold mb-2 text-teal-700">Status Distribution</div>
           <div className="w-full h-[250px]">
             <ResponsiveContainer width="100%" height="100%">
               <PieChart>
@@ -115,9 +118,8 @@ const OverviewPage: React.FC = () => {
             </ResponsiveContainer>
           </div>
         </div>
-        {/* Bar Chart with finer age groups and less gap */}
-        <div className="flex-1 bg-white rounded-xl shadow p-6 flex flex-col">
-          <div className="text-lg font-semibold mb-2">Age Distribution</div>
+        <div className="flex-1 bg-blue-50 rounded-2xl shadow-lg border border-blue-100 p-6 flex flex-col">
+          <div className="text-lg font-semibold mb-2 text-teal-700">Age Distribution</div>
           <div className="w-full h-[250px]">
             <ResponsiveContainer width="100%" height="100%">
               <BarChart
@@ -130,7 +132,7 @@ const OverviewPage: React.FC = () => {
                 <YAxis />
                 <Tooltip />
                 <Legend />
-                <Bar dataKey="count" fill="#8884d8" />
+                <Bar dataKey="count" fill="#14b8a6" />
               </BarChart>
             </ResponsiveContainer>
           </div>
@@ -138,9 +140,9 @@ const OverviewPage: React.FC = () => {
       </div>
 
       {/* Recently Added Patients */}
-      <div className="mt-8">
-        <div className="text-lg font-semibold mb-2">Recently Added Patients</div>
-        <div className="bg-white rounded-xl shadow p-4">
+      <div className="mt-10">
+        <div className="text-lg font-semibold mb-2 text-teal-700">Recently Added Patients</div>
+        <div className="bg-white rounded-2xl shadow-lg border border-blue-100 p-6">
           {recentPatients.length === 0 ? (
             <div className="text-gray-500">No patients available.</div>
           ) : (
@@ -148,7 +150,7 @@ const OverviewPage: React.FC = () => {
               {recentPatients.map(patient => (
                 <li
                   key={patient.generatedId}
-                  className="py-4 border-b last:border-b-0 flex flex-col md:flex-row md:items-center md:justify-between gap-2"
+                  className="py-4 border-b last:border-b-0 flex flex-col md:flex-row md:items-center md:justify-between gap-2 hover:bg-blue-50 rounded transition"
                 >
                   <div>
                     <div className="font-bold text-blue-900 text-lg">
@@ -162,10 +164,10 @@ const OverviewPage: React.FC = () => {
                         <span
                           className={
                             patient.status === 'Admitted'
-                              ? 'text-green-700 font-semibold'
+                              ? 'bg-green-100 text-green-700 font-semibold px-2 py-1 rounded-full'
                               : patient.status === 'Discharged'
-                              ? 'text-orange-600 font-semibold'
-                              : 'text-blue-600 font-semibold'
+                              ? 'bg-orange-100 text-orange-700 font-semibold px-2 py-1 rounded-full'
+                              : 'bg-blue-100 text-blue-700 font-semibold px-2 py-1 rounded-full'
                           }
                         >
                           {patient.status}

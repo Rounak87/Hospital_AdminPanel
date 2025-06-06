@@ -9,11 +9,11 @@ import PatientStatisticsPage from './Components/PatientsStatisticPage';
 function App() {
   return (
     <Router>
-      {/* Load patients once on app start */}
+      
       <PatientsLoader />
       <Routes>
         <Route path="/" element={<MainLayout />}>
-          {/* Default route shows OverviewPage */}
+          
           <Route index element={<OverviewPage />} />
           <Route path="patients" element={<PatientsInfoPage />} />
           <Route path="statistics" element={<PatientStatisticsPage />} />
